@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99288c056bd449048b64095509cd5cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AniFill: {fileID: 1374926653}
+  m_Fill: {fileID: 1374926653}
   m_Label: {fileID: 804628360}
   m_OnceDuration: 0.5
   m_AniEase: 1
