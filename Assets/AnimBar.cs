@@ -20,9 +20,10 @@ public class AnimBar : MonoBehaviour
     private float m_FillTotalWidth;         //填充条总宽度（注意保持预设进度为1）
     private Sequence m_Sequence;            //动画队列
     private int m_CurIntegralPart;          //整数部分（由动画维护）
-
-    public Action<int> onIntegralPartChanged;
+    
     public Action<float> onUpdate;
+    public Action<int> onIntegralPartChanged;
+    public Action<float> onCompleteFinally;
 
     public void Awake()
     {
@@ -143,7 +144,8 @@ public class AnimBar : MonoBehaviour
         
         m_Sequence.OnComplete(() =>
         {
-            onIntegralPartChanged?.Invoke(m_CurIntegralPart);
+            float value = m_CurIntegralPart + GetCurFractionalPart();
+            onCompleteFinally?.Invoke(value);
         });
         m_Sequence.OnUpdate(() =>
         {
@@ -164,7 +166,8 @@ public class AnimBar : MonoBehaviour
         tweener.OnComplete(() =>
         {
             SetWidthWithFractionalPart(endValue);
-            if (onComplete != null) { onComplete(); }
+            onComplete?.Invoke();
+            onIntegralPartChanged?.Invoke(m_CurIntegralPart);
         });
 
         tweener.SetEase(m_AniEase);
